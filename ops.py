@@ -81,7 +81,7 @@ def up_sample(x, scale_factor=2):
 
 def adaptive_avg_pooling(x):
     # global average pooling
-    gap = tf.reduce_mean(x, axis=[1, 2], keep_dims=True)
+    gap = tf.reduce_mean(x, axis=[1, 2], keepdims=True)
 
     return gap
 
@@ -153,6 +153,10 @@ def discriminator_loss(type, real, fake):
             real_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(real[i]), logits=real[i]))
             fake_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(fake[i]), logits=fake[i]))
 
+        if type == 'l1':
+            real_loss = tf.reduce_mean(tf.abs(real[i]-1.0))
+            fake_loss = tf.reduce_mean(tf.abs(fake[i]))
+            
         loss.append(real_loss + fake_loss)
 
     return sum(loss)
@@ -170,6 +174,9 @@ def generator_loss(type, fake):
 
         if type == 'gan' :
             fake_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(fake[i]), logits=fake[i]))
+
+        if type == 'l1':
+            fake_loss = tf.reduce_mean(tf.abs(fake[i]-1.0))
 
         loss.append(fake_loss)
 

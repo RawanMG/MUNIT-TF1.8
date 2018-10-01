@@ -57,7 +57,13 @@ class MUNIT(object) :
         check_folder(self.sample_dir)
 
         self.trainA_dataset = glob('./dataset/{}/*.*'.format(self.dataset_name + '/trainA'))
+        print('./dataset/{}/*.*'.format(self.dataset_name + '/trainA'))
+
+
         self.trainB_dataset = glob('./dataset/{}/*.*'.format(self.dataset_name + '/trainB'))
+        print(self.trainB_dataset)
+
+
         self.dataset_num = max(len(self.trainA_dataset), len(self.trainB_dataset))
 
         print("##### Information #####")
